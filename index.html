@@ -1,8 +1,10 @@
-<!DOCTYPE html><html lang="en"><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Nest - Worship Session</title>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #ffffff;
@@ -484,6 +486,26 @@
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
             margin-top: 1.5rem;
+        }
+
+        .slide-definition {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(99, 102, 241, 0.08));
+            border-left: 4px solid var(--accent);
+            border-radius: 0 16px 16px 0;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-definition p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .slide-definition strong {
+            color: var(--accent);
+            font-weight: 700;
         }
 
         .slide-verses {
@@ -1361,9 +1383,22 @@
             line-height: 1.5;
         }
 
+        /* Large Definition for TV Display */
+        body.presenter-mode .slide-definition {
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            max-width: 900px;
+        }
+
+        body.presenter-mode .slide-definition p {
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            line-height: 1.7;
+        }
+
         /* Large Verses for TV Display */
         body.presenter-mode .slide-verses {
             padding: 1.5rem;
+            max-width: 900px;
         }
 
         body.presenter-mode .slide-verses h4 {
@@ -2580,34 +2615,170 @@
                 font-size: 1.2rem;
             }
         }
+        .copy-image-btn.copying {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .copy-image-btn.success {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .copy-image-btn.error {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        /* Image Preview Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 100000;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .image-modal.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-modal-header {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+
+        .image-modal-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .image-modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .image-modal-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .image-modal-btn.primary {
+            background: #10b981;
+            color: white;
+        }
+
+        .image-modal-btn.primary:hover {
+            background: #059669;
+        }
+
+        .image-modal-btn.secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .image-modal-btn.secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .image-modal-btn.close {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 10px;
+        }
+
+        .image-modal-content {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+            overflow: auto;
+        }
+
+        .image-modal img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .image-modal-hint {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            margin-top: 16px;
+            text-align: center;
+            flex-shrink: 0;
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
+    <!-- Image Preview Modal -->
+    <div class="image-modal" id="imageModal">
+        <div class="image-modal-header">
+            <span class="image-modal-title">📷 Agenda Image</span>
+            <div class="image-modal-actions">
+                <button class="image-modal-btn secondary" id="copyImageToClipboard">
+                    📋 Copy
+                </button>
+                <a class="image-modal-btn primary" id="downloadImageLink" download="nest-agenda.png">
+                    💾 Save
+                </a>
+                <button class="image-modal-btn close" id="closeImageModal">✕</button>
+            </div>
+        </div>
+        <div class="image-modal-content">
+            <img id="previewImage" src="" alt="Agenda Preview">
+        </div>
+        <p class="image-modal-hint">💡 On Safari: Long-press image → "Save to Photos" or "Copy"</p>
+    </div>
+
     <!-- Presenter Mode Toggle Buttons -->
-    <button class="presenter-toggle" id="presenterToggle" aria-label="Enter Presenter Mode">
-        <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"></path></svg>
-        Worship Expressions
-    </button>
     <button class="presenter-toggle-bible" id="presenterToggleBible" aria-label="Enter Bible Study Presenter Mode">
-        <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"></path></svg>
+        <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
         Lord's Supper
     </button>
     <button class="presenter-toggle-popup" id="presenterPopupToggle" aria-label="Open Presenter in New Window">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="2" y="3" width="20" height="14" rx="2"></rect>
-            <path d="M8 21h8M12 17v4"></path>
-            <path d="M9 10l3-3 3 3M12 7v6"></path>
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8M12 17v4"/>
+            <path d="M9 10l3-3 3 3M12 7v6"/>
         </svg>
         Open in New Window
     </button>
 
     <!-- Section Labels for Presenter Mode -->
-    <div class="presenter-section-label worship-label">🎵 Worship Expressions</div>
     <div class="presenter-section-label bible-label">✝️ The Lord's Supper</div>
 
     <!-- Exit Presenter Button -->
     <button class="exit-presenter" id="exitPresenter" aria-label="Exit Presenter Mode">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         Exit
     </button>
 
@@ -2627,14 +2798,14 @@
                     <div class="meta-label">Hour</div>
                 </div>
                 <div class="meta-item">
-                    <div class="meta-value">7</div>
+                    <div class="meta-value">5</div>
                     <div class="meta-label">Songs</div>
                 </div>
             </div>
         </div>
         <div class="scroll-indicator">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
-                <path d="M12 5v14M5 12l7 7 7-7"></path>
+                <path d="M12 5v14M5 12l7 7 7-7"/>
             </svg>
         </div>
     </section>
@@ -2642,27 +2813,42 @@
     <!-- Schedule Section -->
     <section class="fade-in schedule-section">
         <p class="section-label">Schedule</p>
-        <h2 class="section-title">The Greatness &amp;<br>Goodness of God</h2>
+        <h2 class="section-title">The Greatness &<br>Goodness of God</h2>
         <p class="section-subtitle">From opening worship to benediction, every moment is designed to draw you closer.</p>
 
         <div class="schedule-actions">
             <button class="schedule-btn" id="saveScheduleBtn">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                    <polyline points="7 3 7 8 15 8"></polyline>
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                    <polyline points="17 21 17 13 7 13 7 21"/>
+                    <polyline points="7 3 7 8 15 8"/>
                 </svg>
                 Save Schedule
             </button>
             <label class="schedule-btn load-btn">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="17 8 12 3 7 8"></polyline>
-                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
                 </svg>
                 Load Schedule
-                <input type="file" id="loadScheduleInput" accept=".json" hidden="">
+                <input type="file" id="loadScheduleInput" accept=".json" hidden>
             </label>
+            <button class="schedule-btn copy-image-btn" id="copyImageBtn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                📷 Get Image
+            </button>
+            <button class="schedule-btn" id="copyToClipboardBtn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                📋 Copy to Clipboard
+            </button>
             <span class="drag-hint">✋ Drag items to reorder</span>
         </div>
 
@@ -2671,7 +2857,7 @@
                 <div class="timeline-item">
                     <div class="timeline-time">7:30 PM</div>
                     <div class="timeline-content">
-                        <h3>Welcome &amp; Opening Prayer</h3>
+                        <h3>Welcome & Opening Prayer</h3>
                         <p>Setting the tone—be still and open your heart before the Lord</p>
                         <span class="timeline-tag">Opening</span>
                         <div class="responsible-field">
@@ -2694,8 +2880,8 @@
                 <div class="timeline-item">
                     <div class="timeline-time">7:36 PM</div>
                     <div class="timeline-content">
-                        <h3>🎵 Goodness of God + Firm Foundation</h3>
-                        <p>Bethel Music / Cody Carnes — Focus on God's faithfulness and mercy</p>
+                        <h3>🎵 Firm Foundation</h3>
+                        <p>Cody Carnes — He won't, He won't</p>
                         <span class="timeline-tag">Worship</span>
                         <div class="responsible-field">
                             <label>👤 Responsible:</label>
@@ -2718,8 +2904,8 @@
                 <div class="timeline-item">
                     <div class="timeline-time">7:44 PM</div>
                     <div class="timeline-content">
-                        <h3>🎵 Nothing Else</h3>
-                        <p>Cody Carnes</p>
+                        <h3>🎵 You Are My All In All</h3>
+                        <p>Dennis Jernigan</p>
                         <span class="timeline-tag">Worship</span>
                         <div class="responsible-field">
                             <label>👤 Responsible:</label>
@@ -2763,23 +2949,11 @@
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-time">7:58 PM</div>
+                    <div class="timeline-time">7:55 PM</div>
                     <div class="timeline-content">
-                        <h3>📖 Seven Expressions of Worship</h3>
-                        <p>Teaching on the biblical expressions of worship — Barak, Yadah, Towdah, Shabach, Zamar, Halal, Tehillah (25 min)</p>
-                        <span class="timeline-tag">Teaching</span>
-                        <div class="responsible-field">
-                            <label>👤 Responsible:</label>
-                            <input type="text" class="responsible-input" placeholder="Assign someone..." value="STAFF">
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">8:02 PM</div>
-                    <div class="timeline-content">
+                        <span class="timeline-tag">Worship</span>
                         <h3>🎵 Heart of Worship</h3>
                         <p>Matt Redman — Leading into responsive reading</p>
-                        <span class="timeline-tag">Worship</span>
                         <div class="responsible-field">
                             <label>👤 Responsible:</label>
                             <input type="text" class="responsible-input" placeholder="Assign someone..." value="WORSHIP TEAM">
@@ -2787,18 +2961,18 @@
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-time">8:09 PM</div>
+                    <div class="timeline-time">8:02 PM</div>
                     <div class="timeline-content">
                         <h3>Responsive Reading</h3>
                         <p>Psalm 145:1-21 — Ladies and Men alternate verses</p>
                         <div class="responsible-field">
-                            <label>👤 Responsible:</label>
+                            <label>���� Responsible:</label>
                             <input type="text" class="responsible-input" placeholder="Assign someone..." value="SAMUEL">
                         </div>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-time">8:16 PM</div>
+                    <div class="timeline-time">8:20 PM</div>
                     <div class="timeline-content">
                         <h3>🎵 Build My Life</h3>
                         <p>Pat Barrett — Preparing hearts for communion</p>
@@ -2955,378 +3129,6 @@
         </div>
     </section>
 
-    <!-- Worship Types Slideshow -->
-    <div class="slideshow-section">
-        <div class="slideshow-header fade-in">
-            <p class="section-label">Explore</p>
-            <h2 class="section-title">Seven expressions.<br>One heart of worship.</h2>
-            <p class="section-subtitle">Discover the beautiful diversity of how we can honor God through our lives.</p>
-        </div>
-
-        <div class="slideshow-container fade-in">
-            <div class="slides-wrapper">
-                <div class="slide-progress" id="slideProgress"></div>
-                <div class="slides-track" id="slidesTrack">
-                    <!-- Slide 1: Corporate Worship -->
-                    <div class="slide active">
-                        <span class="slide-number">1</span>
-                        <span class="slide-icon">🎵</span>
-                        <h3>Corporate Worship</h3>
-                        <p>Gathering as one body to lift our voices in praise and adoration to our Creator.</p>
-                        <div class="slide-content-grid">
-                            <div class="slide-verses">
-                                <h4>📖 Scripture</h4>
-                                <div class="verse-item">
-                                    <p>"Let the word of Christ dwell in you richly... singing psalms and hymns and spiritual songs, with thankfulness in your hearts to God."</p>
-                                    <span class="verse-ref">— Colossians 3:16 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"Oh come, let us sing to the Lord; let us make a joyful noise to the rock of our salvation!"</p>
-                                    <span class="verse-ref">— Psalm 95:1 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"Speaking to one another in psalms and hymns and spiritual songs, singing and making melody to the Lord with your heart."</p>
-                                    <span class="verse-ref">— Ephesians 5:19 ESV</span>
-                                </div>
-                            </div>
-                            <div class="slide-interactive">
-                                <h4>💡 Engage</h4>
-                                <div class="activity-box">
-                                    <h5>🎯 Practical Examples</h5>
-                                    <p>• Arrive early to prepare your heart before worship begins<br>• Close your eyes and focus on the lyrics, not the performance<br>• Raise your hands or kneel as physical expressions of surrender</p>
-                                </div>
-                                <div class="questions-box">
-                                    <h5>🤔 Reflect</h5>
-                                    <ul class="questions-list">
-                                        <li>When was a time you felt deeply connected to God during corporate worship?</li>
-                                        <li>What distractions typically prevent you from fully engaging in sung worship?</li>
-                                        <li>How can you prepare your heart before coming to worship?</li>
-                                    </ul>
-                                    <span class="reveal-hint">👆 Tap questions one by one to reveal</span>
-                                </div>
-                                <!-- Cautions Section - Tap to Reveal -->
-                                <button class="cautions-toggle" id="cautionsToggle" aria-expanded="false">
-                                    ⚠️ Things to Be Careful About
-                                    <span class="arrow">▼</span>
-                                </button>
-                                <div class="cautions-content" id="cautionsContent">
-                                    <div class="cautions-list">
-                                        <h5>🚫 Watch Out For</h5>
-                                        <ul>
-                                            <li>Making worship about the music style rather than the heart's posture toward God</li>
-                                            <li>Focusing on how others perceive you instead of genuinely connecting with God</li>
-                                            <li>Treating worship as entertainment or passive observation</li>
-                                            <li>Allowing unconfessed sin to create a barrier between you and God</li>
-                                            <li>Coming unprepared with a distracted mind and wandering thoughts</li>
-                                            <li>Criticizing the worship team or comparing to other churches</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2: Worship Through Prayer -->
-                    <div class="slide">
-                        <span class="slide-number">2</span>
-                        <span class="slide-icon">🙏</span>
-                        <h3>Worship Through Prayer</h3>
-                        <p>Communicating with God, expressing our dependence, gratitude, and reverence.</p>
-                        <div class="slide-content-grid">
-                            <div class="slide-verses">
-                                <h4>📖 Scripture</h4>
-                                <div class="verse-item">
-                                    <p>"Rejoice always, pray without ceasing, give thanks in all circumstances; for this is the will of God in Christ Jesus for you."</p>
-                                    <span class="verse-ref">— 1 Thessalonians 5:16-18 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God."</p>
-                                    <span class="verse-ref">— Philippians 4:6 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"The Lord is near to all who call on him, to all who call on him in truth."</p>
-                                    <span class="verse-ref">— Psalm 145:18 ESV</span>
-                                </div>
-                            </div>
-                            <div class="slide-interactive">
-                                <h4>💡 Engage</h4>
-                                <div class="activity-box">
-                                    <h5>🎯 Practical Examples</h5>
-                                    <p>• Set a daily alarm as a reminder to pause and pray<br>• Keep a prayer journal to track requests and answered prayers<br>• Practice the A.C.T.S. model: Adoration, Confession, Thanksgiving, Supplication</p>
-                                </div>
-                                <div class="questions-box">
-                                    <h5>🤔 Reflect</h5>
-                                    <ul class="questions-list">
-                                        <li>Is your prayer life more about asking or listening? How can you create more balance?</li>
-                                        <li>What prevents you from praying more consistently throughout your day?</li>
-                                        <li>How has prayer changed your perspective in a difficult season?</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 3: Worship Through Service -->
-                    <div class="slide">
-                        <span class="slide-number">3</span>
-                        <span class="slide-icon">🤝</span>
-                        <h3>Worship Through Service</h3>
-                        <p>Serving others as an act of worship, recognizing that when we serve people, we serve God.</p>
-                        <div class="slide-content-grid">
-                            <div class="slide-verses">
-                                <h4>📖 Scripture</h4>
-                                <div class="verse-item">
-                                    <p>"For you were called to freedom, brothers. Only do not use your freedom as an opportunity for the flesh, but through love serve one another."</p>
-                                    <span class="verse-ref">— Galatians 5:13 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"As each has received a gift, use it to serve one another, as good stewards of God's varied grace."</p>
-                                    <span class="verse-ref">— 1 Peter 4:10 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"And the King will answer them, 'Truly, I say to you, as you did it to one of the least of these my brothers, you did it to me.'"</p>
-                                    <span class="verse-ref">— Matthew 25:40 ESV</span>
-                                </div>
-                            </div>
-                            <div class="slide-interactive">
-                                <h4>💡 Engage</h4>
-                                <div class="activity-box">
-                                    <h5>🎯 Practical Examples</h5>
-                                    <p>• Volunteer at a local shelter or food bank monthly<br>• Offer to help a neighbor with yard work or errands<br>• Use your professional skills to mentor someone in need</p>
-                                </div>
-                                <div class="questions-box">
-                                    <h5>🤔 Reflect</h5>
-                                    <ul class="questions-list">
-                                        <li>What gifts has God given you that could bless others?</li>
-                                        <li>Is there someone you've been avoiding serving? Why?</li>
-                                        <li>How can you serve with joy rather than obligation?</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 4: Worship Through Giving -->
-                    <div class="slide">
-                        <span class="slide-number">4</span>
-                        <span class="slide-icon">💝</span>
-                        <h3>Worship Through Giving</h3>
-                        <p>Offering our resources, time, and talents as an expression of gratitude and trust.</p>
-                        <div class="slide-content-grid">
-                            <div class="slide-verses">
-                                <h4>📖 Scripture</h4>
-                                <div class="verse-item">
-                                    <p>"Each one must give as he has decided in his heart, not reluctantly or under compulsion, for God loves a cheerful giver."</p>
-                                    <span class="verse-ref">— 2 Corinthians 9:7 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"Honor the Lord with your wealth and with the firstfruits of all your produce."</p>
-                                    <span class="verse-ref">— Proverbs 3:9 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"For where your treasure is, there your heart will be also."</p>
-                                    <span class="verse-ref">— Matthew 6:21 ESV</span>
-                                </div>
-                            </div>
-                            <div class="slide-interactive">
-                                <h4>💡 Engage</h4>
-                                <div class="activity-box">
-                                    <h5>🎯 Practical Examples</h5>
-                                    <p>• Set up automatic tithing to your local church<br>• Sponsor a child through a missions organization<br>• Give anonymously to someone facing financial hardship</p>
-                                </div>
-                                <div class="questions-box">
-                                    <h5>🤔 Reflect</h5>
-                                    <ul class="questions-list">
-                                        <li>What does your spending reveal about your priorities?</li>
-                                        <li>Do you give from abundance or from sacrifice? What's the difference?</li>
-                                        <li>How has experiencing generosity from others impacted your faith?</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 5: Personal Devotion -->
-                    <div class="slide">
-                        <span class="slide-number">5</span>
-                        <span class="slide-icon">📖</span>
-                        <h3>Personal Devotion</h3>
-                        <p>Spending intimate time with God through Scripture reading, meditation, and personal prayer.</p>
-                        <div class="slide-content-grid">
-                            <div class="slide-verses">
-                                <h4>📖 Scripture</h4>
-                                <div class="verse-item">
-                                    <p>"But when you pray, go into your room and shut the door and pray to your Father who is in secret."</p>
-                                    <span class="verse-ref">— Matthew 6:6 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"This Book of the Law shall not depart from your mouth, but you shall meditate on it day and night."</p>
-                                    <span class="verse-ref">— Joshua 1:8 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"Be still, and know that I am God. I will be exalted among the nations, I will be exalted in the earth!"</p>
-                                    <span class="verse-ref">— Psalm 46:10 ESV</span>
-                                </div>
-                            </div>
-                            <div class="slide-interactive">
-                                <h4>💡 Engage</h4>
-                                <div class="activity-box">
-                                    <h5>🎯 Practical Examples</h5>
-                                    <p>• Start your day with 15 minutes of Bible reading before checking your phone<br>• Use a devotional app or reading plan for structure<br>• Memorize one verse each week and meditate on it daily</p>
-                                </div>
-                                <div class="questions-box">
-                                    <h5>🤔 Reflect</h5>
-                                    <ul class="questions-list">
-                                        <li>What time of day do you feel most connected to God?</li>
-                                        <li>What obstacles keep you from consistent devotional time?</li>
-                                        <li>How has Scripture shaped a recent decision you made?</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 6: Living Sacrifice -->
-                    <div class="slide">
-                        <span class="slide-number">6</span>
-                        <span class="slide-icon">🔥</span>
-                        <h3>Living Sacrifice</h3>
-                        <p>Offering our entire lives as an act of worship, surrendering ourselves to God's will daily.</p>
-                        <div class="slide-content-grid">
-                            <div class="slide-verses">
-                                <h4>📖 Scripture</h4>
-                                <div class="verse-item">
-                                    <p>"I appeal to you therefore, brothers, by the mercies of God, to present your bodies as a living sacrifice, holy and acceptable to God."</p>
-                                    <span class="verse-ref">— Romans 12:1 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"I have been crucified with Christ. It is no longer I who live, but Christ who lives in me."</p>
-                                    <span class="verse-ref">— Galatians 2:20 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"And whoever does not take his cross and follow me is not worthy of me."</p>
-                                    <span class="verse-ref">— Matthew 10:38 ESV</span>
-                                </div>
-                            </div>
-                            <div class="slide-interactive">
-                                <h4>💡 Engage</h4>
-                                <div class="activity-box">
-                                    <h5>🎯 Practical Examples</h5>
-                                    <p>• Begin each morning by saying "Lord, today belongs to You"<br>• Fast from something you enjoy to refocus on God<br>• Make career and life decisions by seeking God's will first</p>
-                                </div>
-                                <div class="questions-box">
-                                    <h5>🤔 Reflect</h5>
-                                    <ul class="questions-list">
-                                        <li>What areas of your life are you still holding back from God?</li>
-                                        <li>What does daily surrender look like practically in your routine?</li>
-                                        <li>How does the world's definition of success differ from God's?</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 7: Communion -->
-                    <div class="slide">
-                        <span class="slide-number">7</span>
-                        <span class="slide-icon">🍷</span>
-                        <h3>Communion</h3>
-                        <p>Remembering Christ's sacrifice through the Lord's Supper, proclaiming His death until He comes again.</p>
-                        <div class="slide-content-grid">
-                            <div class="slide-verses">
-                                <h4>📖 Scripture</h4>
-                                <div class="verse-item">
-                                    <p>"This is my body, which is for you. Do this in remembrance of me... This cup is the new covenant in my blood."</p>
-                                    <span class="verse-ref">— 1 Corinthians 11:24-25 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"For as often as you eat this bread and drink the cup, you proclaim the Lord's death until he comes."</p>
-                                    <span class="verse-ref">— 1 Corinthians 11:26 ESV</span>
-                                </div>
-                                <div class="verse-item">
-                                    <p>"The cup of blessing that we bless, is it not a participation in the blood of Christ?"</p>
-                                    <span class="verse-ref">— 1 Corinthians 10:16 ESV</span>
-                                </div>
-                            </div>
-                            <div class="slide-interactive">
-                                <h4>💡 Engage</h4>
-                                <div class="activity-box">
-                                    <h5>🎯 Practical Examples</h5>
-                                    <p>• Take communion regularly at church with intentional reflection<br>• Before partaking, examine your heart and confess any known sin<br>• Reconcile with anyone you have conflict with before coming to the table</p>
-                                </div>
-                                <div class="questions-box">
-                                    <h5>🤔 Reflect</h5>
-                                    <ul class="questions-list">
-                                        <li>What does Christ's sacrifice mean to you personally today?</li>
-                                        <li>Is there anything you need to confess or reconcile before partaking?</li>
-                                        <li>How does communion connect you to believers throughout history?</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Summary Slide -->
-                    <div class="slide summary-slide">
-                        <span class="slide-icon">✨</span>
-                        <h3>Seven Expressions</h3>
-                        <p>Every aspect of our lives can become an offering of worship to our Creator.</p>
-                        <div class="summary-grid">
-                            <div class="summary-item">
-                                <span class="summary-icon">🎵</span>
-                                <span class="summary-title">Corporate Worship</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-icon">🙏</span>
-                                <span class="summary-title">Prayer</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-icon">🤝</span>
-                                <span class="summary-title">Service</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-icon">💝</span>
-                                <span class="summary-title">Giving</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-icon">📖</span>
-                                <span class="summary-title">Devotion</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-icon">🔥</span>
-                                <span class="summary-title">Living Sacrifice</span>
-                            </div>
-                            <div class="summary-item">
-                                <span class="summary-icon">🍷</span>
-                                <span class="summary-title">Communion</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <nav class="slide-nav">
-                <button class="slide-arrow" id="prevBtn" aria-label="Previous slide">
-                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M15 18l-6-6 6-6"></path>
-                    </svg>
-                </button>
-
-                <div class="slide-dots" id="slideDots"></div>
-
-                <button class="slide-arrow" id="nextBtn" aria-label="Next slide">
-                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 18l6-6-6-6"></path>
-                    </svg>
-                </button>
-            </nav>
-
-            <div class="slide-counter" style="text-align: center; margin-top: 1.5rem;">
-                <span id="currentSlide">1</span> of <span id="totalSlides">7</span>
-            </div>
-        </div>
-    </div>
-
     <!-- Bible Study: The Lord's Supper - Interactive Slideshow -->
     <div class="bible-slideshow-section">
         <div class="bible-slideshow-header fade-in">
@@ -3371,7 +3173,7 @@
                             </div>
                             <div class="bible-step-item">
                                 <div class="bible-step-number">4</div>
-                                <h5>Avoid Excess &amp; Disorder</h5>
+                                <h5>Avoid Excess & Disorder</h5>
                                 <p>A lack of understanding causes us to lose the true solemn meaning. The Lord's Supper is sacred.</p>
                                 <span class="verse-ref">1 Corinthians 11:20-22</span>
                             </div>
@@ -3445,7 +3247,7 @@
             <nav class="bible-slide-nav">
                 <button class="bible-slide-arrow" id="biblePrevBtn" aria-label="Previous slide">
                     <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M15 18l-6-6 6-6"></path>
+                        <path d="M15 18l-6-6 6-6"/>
                     </svg>
                 </button>
 
@@ -3453,7 +3255,7 @@
 
                 <button class="bible-slide-arrow" id="bibleNextBtn" aria-label="Next slide">
                     <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 18l6-6-6-6"></path>
+                        <path d="M9 18l6-6-6-6"/>
                     </svg>
                 </button>
             </nav>
@@ -3475,31 +3277,21 @@
                 <div class="song-item">
                     <div class="song-number">01</div>
                     <div class="song-info">
-                        <div class="song-title">Goodness of God</div>
-                        <div class="song-artist">Bethel Music</div>
-                    </div>
-                    <div class="play-icon">
-                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"></polygon></svg>
-                    </div>
-                </div>
-                <div class="song-item">
-                    <div class="song-number">01b</div>
-                    <div class="song-info">
                         <div class="song-title">Firm Foundation (He Won't)</div>
                         <div class="song-artist">Cody Carnes</div>
                     </div>
                     <div class="play-icon">
-                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"></polygon></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
                     </div>
                 </div>
                 <div class="song-item">
                     <div class="song-number">02</div>
                     <div class="song-info">
-                        <div class="song-title">Nothing Else</div>
-                        <div class="song-artist">Cody Carnes</div>
+                        <div class="song-title">You Are My All In All</div>
+                        <div class="song-artist">Dennis Jernigan</div>
                     </div>
                     <div class="play-icon">
-                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"></polygon></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
                     </div>
                 </div>
                 <div class="song-item">
@@ -3509,7 +3301,7 @@
                         <div class="song-artist">Matt Redman</div>
                     </div>
                     <div class="play-icon">
-                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"></polygon></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
                     </div>
                 </div>
                 <div class="song-item">
@@ -3519,7 +3311,7 @@
                         <div class="song-artist">Matt Redman</div>
                     </div>
                     <div class="play-icon">
-                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"></polygon></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
                     </div>
                 </div>
                 <div class="song-item">
@@ -3529,7 +3321,7 @@
                         <div class="song-artist">Pat Barrett</div>
                     </div>
                     <div class="play-icon">
-                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"></polygon></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
                     </div>
                 </div>
                 <div class="song-item">
@@ -3539,7 +3331,7 @@
                         <div class="song-artist">Instrumental</div>
                     </div>
                     <div class="play-icon">
-                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"></polygon></svg>
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
                     </div>
                 </div>
             </div>
@@ -3559,23 +3351,12 @@
             </div>
             <div class="controller-content">
                 <div class="controller-section">
-                    <h4>Worship Expressions</h4>
-                    <div class="current-slide-info" id="worshipSlideInfo">Slide 1: Corporate Worship</div>
-                    <div class="slide-counter-ctrl" id="worshipSlideCounter">1 of 7</div>
-                    <div class="controller-btns" style="margin-top: 0.75rem;">
-                        <button class="ctrl-btn secondary" id="ctrlWorshipPrev">← Previous</button>
-                        <button class="ctrl-btn primary" id="ctrlWorshipNext">Next →</button>
-                        <button class="ctrl-btn secondary" id="ctrlShowWorship">Show</button>
-                    </div>
-                </div>
-                <div class="controller-section">
                     <h4>Lord's Supper</h4>
                     <div class="current-slide-info" id="bibleSlideInfo">Slide 1: How Should We Celebrate?</div>
                     <div class="slide-counter-ctrl" id="bibleSlideCounter">1 of 4</div>
                     <div class="controller-btns" style="margin-top: 0.75rem;">
                         <button class="ctrl-btn secondary" id="ctrlBiblePrev">← Previous</button>
                         <button class="ctrl-btn primary" id="ctrlBibleNext">Next →</button>
-                        <button class="ctrl-btn secondary" id="ctrlShowBible">Show</button>
                     </div>
                 </div>
             </div>
@@ -3621,151 +3402,30 @@
             observer.observe(el);
         });
 
-        // Slideshow functionality
-        const slidesTrack = document.getElementById('slidesTrack');
-        const slides = document.querySelectorAll('.slide');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const dotsContainer = document.getElementById('slideDots');
-        const progress = document.getElementById('slideProgress');
-        const currentSlideEl = document.getElementById('currentSlide');
-        const totalSlidesEl = document.getElementById('totalSlides');
-
-        let currentIndex = 0;
-        const totalSlides = slides.length;
-
-        // Set total slides
-        totalSlidesEl.textContent = totalSlides;
-
-        // Create dots
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('button');
-            dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
-        }
-
-        const dots = document.querySelectorAll('.slide-dot');
-
-        function updateSlideshow() {
-            // Move track
-            slidesTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-            // Update active states
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === currentIndex);
-            });
-
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentIndex);
-            });
-
-            // Update progress bar
-            const progressPercent = ((currentIndex + 1) / totalSlides) * 100;
-            progress.style.width = `${progressPercent}%`;
-
-            // Update counter
-            currentSlideEl.textContent = currentIndex + 1;
-
-            // Update button states
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex === totalSlides - 1;
-        }
-
-        function goToSlide(index) {
-            currentIndex = index;
-            updateSlideshow();
-        }
-
-        function nextSlide() {
-            if (currentIndex < totalSlides - 1) {
-                currentIndex++;
-                updateSlideshow();
-            }
-        }
-
-        function prevSlide() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateSlideshow();
-            }
-        }
-
-        prevBtn.addEventListener('click', prevSlide);
-        nextBtn.addEventListener('click', nextSlide);
-
-        // Keyboard navigation - handle both slideshows
+        // Keyboard navigation for Bible slideshow
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
-                if (document.body.classList.contains('bible-presenter')) {
-                    biblePrevSlide();
-                } else {
-                    prevSlide();
-                }
+                biblePrevSlide();
             }
             if (e.key === 'ArrowRight') {
-                if (document.body.classList.contains('bible-presenter')) {
-                    bibleNextSlide();
-                } else {
-                    nextSlide();
-                }
+                bibleNextSlide();
             }
         });
 
-        // Touch/swipe support
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        slidesTrack.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        slidesTrack.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
-
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    nextSlide();
-                } else {
-                    prevSlide();
-                }
-            }
-        }
-
-        // Initialize
-        updateSlideshow();
-
         // Presenter Mode
-        const presenterToggle = document.getElementById('presenterToggle');
         const presenterToggleBible = document.getElementById('presenterToggleBible');
         const exitPresenter = document.getElementById('exitPresenter');
 
-        function enterPresenterMode() {
-            document.body.classList.add('presenter-mode', 'worship-presenter');
-            document.body.classList.remove('bible-presenter');
-            // Scroll to slideshow section
-            document.querySelector('.slideshow-section').scrollIntoView();
-        }
-
         function enterBiblePresenterMode() {
             document.body.classList.add('presenter-mode', 'bible-presenter');
-            document.body.classList.remove('worship-presenter');
             // Scroll to Bible slideshow section
             document.querySelector('.bible-slideshow-section').scrollIntoView();
         }
 
         function exitPresenterMode() {
-            document.body.classList.remove('presenter-mode', 'worship-presenter', 'bible-presenter');
+            document.body.classList.remove('presenter-mode', 'bible-presenter');
         }
 
-        presenterToggle.addEventListener('click', enterPresenterMode);
         presenterToggleBible.addEventListener('click', enterBiblePresenterMode);
         exitPresenter.addEventListener('click', exitPresenterMode);
 
@@ -3948,16 +3608,6 @@
             });
         }
 
-        // Override slide change functions to reset questions
-        const originalUpdateSlideshow = updateSlideshow;
-        updateSlideshow = function() {
-            originalUpdateSlideshow();
-            if (document.body.classList.contains('presenter-mode')) {
-                resetQuestionReveals();
-                setupQuestionReveal();
-            }
-        };
-
         // Override Bible slideshow update to also handle questions
         const originalUpdateBibleSlideshow = updateBibleSlideshow;
         updateBibleSlideshow = function() {
@@ -3969,14 +3619,6 @@
         };
 
         // Setup on presenter mode enter/exit
-        const originalEnterPresenterMode = enterPresenterMode;
-        enterPresenterMode = function() {
-            originalEnterPresenterMode();
-            resetQuestionReveals();
-            setupQuestionReveal();
-        };
-
-        // Also setup for Bible presenter mode
         const originalEnterBiblePresenterMode = enterBiblePresenterMode;
         enterBiblePresenterMode = function() {
             originalEnterBiblePresenterMode();
@@ -4262,33 +3904,20 @@
         // Popup Presenter Mode
         // =====================
         let presenterWindow = null;
-        let currentPresenterMode = 'worship'; // 'worship' or 'bible'
+        let currentPresenterMode = 'bible';
         const presenterPopupToggle = document.getElementById('presenterPopupToggle');
         const presenterController = document.getElementById('presenterController');
         const controllerStatus = document.getElementById('controllerStatus');
 
         // Slide titles for the controller
-        const worshipSlideTitles = [
-            'Corporate Worship', 'Prayer', 'Service & Acts of Kindness',
-            'Giving', 'Devotion & Quiet Time', 'Surrender & Obedience', 'Communion'
-        ];
         const bibleSlideTitles = [
-            'Overview', 'A New Covenant', 'A Memorial of His Death',
-            'Remember Your Death in Christ', 'Proclaiming His Death',
-            'Early Church Practice', 'Received by Faith', 'How to Celebrate',
-            'Self-Examination', 'Worship Preparation', 'Final Reflection'
+            'How to Celebrate', 'Self-Examination', 'Worship Preparation', 'Final Reflection'
         ];
 
         function updateControllerInfo() {
-            const worshipSlideInfo = document.getElementById('worshipSlideInfo');
-            const worshipSlideCounter = document.getElementById('worshipSlideCounter');
             const bibleSlideInfo = document.getElementById('bibleSlideInfo');
             const bibleSlideCounter = document.getElementById('bibleSlideCounter');
 
-            if (worshipSlideInfo) {
-                worshipSlideInfo.textContent = `Slide ${currentSlide + 1}: ${worshipSlideTitles[currentSlide] || 'Unknown'}`;
-                worshipSlideCounter.textContent = `${currentSlide + 1} of ${totalSlides}`;
-            }
             if (bibleSlideInfo) {
                 bibleSlideInfo.textContent = `Slide ${currentBibleSlide + 1}: ${bibleSlideTitles[currentBibleSlide] || 'Unknown'}`;
                 bibleSlideCounter.textContent = `${currentBibleSlide + 1} of ${totalBibleSlides}`;
@@ -4297,121 +3926,93 @@
 
         function generatePresenterHTML() {
             const darkMode = document.documentElement.classList.contains('dark');
-            const slideshowSection = document.querySelector('.slideshow-section').outerHTML;
-            const bibleSection = document.querySelector('.bible-slideshow-section').outerHTML;
 
-            return `
-<!DOCTYPE html>
-<html lang="en" ${darkMode ? 'class="dark"' : ''}>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presenter Display - The Nest</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        ${document.querySelector('style').textContent}
+            // Get slideshow sections
+            const bibleEl = document.querySelector('.bible-slideshow-section');
 
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        body.presenter-mode .slideshow-section,
-        body.presenter-mode .bible-slideshow-section {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            z-index: 100 !important;
-            padding-top: 2rem !important;
-        }
-
-        .presenter-toggle, .presenter-toggle-bible, .presenter-toggle-popup,
-        .presenter-controller, .schedule-actions, .exit-presenter {
-            display: none !important;
-        }
-
-        .presenter-section-label {
-            display: block !important;
-        }
-
-        body.presenter-mode.worship-presenter .bible-slideshow-section,
-        body.presenter-mode.bible-presenter .slideshow-section {
-            display: none !important;
-        }
-
-        /* Full screen optimizations */
-        .slide, .bible-slide {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-    </style>
-</head>
-<body class="presenter-mode ${currentPresenterMode === 'worship' ? 'worship-presenter' : 'bible-presenter'}">
-    <div class="presenter-section-label ${currentPresenterMode === 'worship' ? 'worship-label' : 'bible-label'}">
-        ${currentPresenterMode === 'worship' ? '🎵 Worship Expressions' : '✝️ The Lord\'s Supper'}
-    </div>
-    ${slideshowSection}
-    ${bibleSection}
-    <script>
-        let currentSlide = ${currentSlide};
-        let currentBibleSlide = ${currentBibleSlide};
-        const totalSlides = ${totalSlides};
-        const totalBibleSlides = ${totalBibleSlides};
-
-        function updateSlideshow() {
-            const track = document.getElementById('slidesTrack');
-            if (track) {
-                track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+            if (!bibleEl) {
+                console.error('Could not find Bible slideshow section');
+                return '';
             }
-        }
 
-        function updateBibleSlideshow() {
-            const track = document.getElementById('bibleSlidesTrack');
-            if (track) {
-                track.style.transform = 'translateX(-' + (currentBibleSlide * 100) + '%)';
-            }
-        }
+            const bibleSection = bibleEl.outerHTML;
 
-        // Listen for messages from controller
-        window.addEventListener('message', function(e) {
-            const data = e.data;
-            if (data.type === 'slide') {
-                if (data.mode === 'worship') {
-                    currentSlide = data.index;
-                    updateSlideshow();
-                } else if (data.mode === 'bible') {
-                    currentBibleSlide = data.index;
-                    updateBibleSlideshow();
-                }
-            } else if (data.type === 'switchMode') {
-                document.body.classList.remove('worship-presenter', 'bible-presenter');
-                document.body.classList.add(data.mode + '-presenter');
+            // Get all styles from style tags
+            let allStyles = '';
+            document.querySelectorAll('style').forEach(style => {
+                allStyles += style.textContent + '\n';
+            });
 
-                const label = document.querySelector('.presenter-section-label');
-                if (label) {
-                    label.className = 'presenter-section-label ' + (data.mode === 'worship' ? 'worship-label' : 'bible-label');
-                    label.textContent = data.mode === 'worship' ? '🎵 Worship Expressions' : '✝️ The Lord\\'s Supper';
-                }
-            } else if (data.type === 'close') {
-                window.close();
-            }
-        });
+            const presenterMode = 'bible-presenter';
+            const labelClass = 'bible-label';
+            const labelText = '✝️ The Lord\'s Supper';
 
-        // Initial update
-        updateSlideshow();
-        updateBibleSlideshow();
-    <\/script>
-</body>
-</html>`;
+            return '<!DOCTYPE html>' +
+'<html lang="en"' + (darkMode ? ' class="dark"' : '') + '>' +
+'<head>' +
+'<meta charset="UTF-8">' +
+'<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+'<title>Presenter Display - The Nest</title>' +
+'<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">' +
+'<style>' + allStyles + `
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+}
+body.presenter-mode .slideshow-section,
+body.presenter-mode .bible-slideshow-section {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 100 !important;
+    padding-top: 2rem !important;
+}
+.presenter-toggle, .presenter-toggle-bible, .presenter-toggle-popup,
+.presenter-controller, .schedule-actions, .exit-presenter, .slide-nav, .bible-slide-nav {
+    display: none !important;
+}
+.presenter-section-label {
+    display: block !important;
+}
+body.presenter-mode.worship-presenter .bible-slideshow-section,
+body.presenter-mode.bible-presenter .slideshow-section {
+    display: none !important;
+}
+.slide, .bible-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+</style>` +
+'</head>' +
+'<body class="presenter-mode ' + presenterMode + '">' +
+'<div class="presenter-section-label ' + labelClass + '">' + labelText + '</div>' +
+bibleSection +
+'<script>' +
+'var currentBibleSlide = ' + currentBibleSlide + ';' +
+'var totalBibleSlides = ' + totalBibleSlides + ';' +
+'function updateBibleSlideshow() {' +
+'  var track = document.getElementById("bibleSlidesTrack");' +
+'  if (track) { track.style.transform = "translateX(-" + (currentBibleSlide * 100) + "%)"; }' +
+'}' +
+'window.addEventListener("message", function(e) {' +
+'  var data = e.data;' +
+'  if (data.type === "slide" && data.mode === "bible") {' +
+'    currentBibleSlide = data.index; updateBibleSlideshow();' +
+'  } else if (data.type === "close") { window.close(); }' +
+'});' +
+'updateBibleSlideshow();' +
+'</' + 'script>' +
+'</body></html>';
         }
 
         function openPresenterPopup() {
@@ -4457,24 +4058,6 @@
         // Controller button handlers
         presenterPopupToggle.addEventListener('click', openPresenterPopup);
 
-        document.getElementById('ctrlWorshipPrev').addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlideshow();
-                sendToPresenter({ type: 'slide', mode: 'worship', index: currentSlide });
-                updateControllerInfo();
-            }
-        });
-
-        document.getElementById('ctrlWorshipNext').addEventListener('click', () => {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateSlideshow();
-                sendToPresenter({ type: 'slide', mode: 'worship', index: currentSlide });
-                updateControllerInfo();
-            }
-        });
-
         document.getElementById('ctrlBiblePrev').addEventListener('click', () => {
             if (currentBibleSlide > 0) {
                 currentBibleSlide--;
@@ -4493,21 +4076,291 @@
             }
         });
 
-        document.getElementById('ctrlShowWorship').addEventListener('click', () => {
-            currentPresenterMode = 'worship';
-            sendToPresenter({ type: 'switchMode', mode: 'worship' });
-        });
-
-        document.getElementById('ctrlShowBible').addEventListener('click', () => {
-            currentPresenterMode = 'bible';
-            sendToPresenter({ type: 'switchMode', mode: 'bible' });
-        });
-
         document.getElementById('ctrlClosePresenter').addEventListener('click', () => {
             sendToPresenter({ type: 'close' });
             presenterController.classList.remove('active');
         });
+
+        // Global variable to store current image data
+        let currentImageDataUrl = null;
+        let currentImageBlob = null;
+
+        // Function to generate agenda image using pure Canvas API
+        function generateAgendaCanvas() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const bgColor = isDark ? '#1a1a1a' : '#ffffff';
+            const textPrimary = isDark ? '#f5f5f7' : '#1d1d1f';
+            const textSecondary = isDark ? '#a1a1a6' : '#6e6e73';
+            const accentColor = isDark ? '#2997ff' : '#0071e3';
+            const borderColor = isDark ? '#3a3a3c' : '#d1d1d6';
+
+            // Get schedule data
+            const timelineItems = document.querySelectorAll('#timelineGrid .timeline-item');
+            const items = [];
+            timelineItems.forEach((item) => {
+                items.push({
+                    time: item.querySelector('.timeline-time')?.textContent || '',
+                    title: item.querySelector('h3')?.textContent || '',
+                    desc: item.querySelector('p')?.textContent || '',
+                    responsible: item.querySelector('.responsible-input')?.value || ''
+                });
+            });
+
+            // Canvas dimensions
+            const width = 800;
+            const padding = 50;
+            const lineHeight = 28;
+            const itemPadding = 20;
+
+            // Calculate height based on items
+            let height = 200; // Header
+            items.forEach(item => {
+                height += 60; // Base item height
+                if (item.desc) height += 24;
+                if (item.responsible) height += 24;
+            });
+            height += 80; // Footer
+
+            // Create canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = width * 2; // 2x for retina
+            canvas.height = height * 2;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(2, 2);
+
+            // Background
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, width, height);
+
+            // Get current date
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Header
+            let y = padding;
+
+            // Dove emoji
+            ctx.font = '40px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('🕊️', width / 2, y + 35);
+            y += 60;
+
+            // Title
+            ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillStyle = textPrimary;
+            ctx.fillText('The Nest', width / 2, y);
+            y += 35;
+
+            // Subtitle
+            ctx.font = '600 16px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillStyle = accentColor;
+            ctx.fillText('Worship Session', width / 2, y);
+            y += 25;
+
+            // Date
+            ctx.font = '14px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillStyle = textSecondary;
+            ctx.fillText(dateStr, width / 2, y);
+            y += 30;
+
+            // Header line
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, y);
+            ctx.lineTo(width - padding, y);
+            ctx.stroke();
+            y += 25;
+
+            // Items
+            ctx.textAlign = 'left';
+            items.forEach((item, index) => {
+                // Time
+                ctx.font = '600 14px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.fillStyle = accentColor;
+                ctx.fillText(item.time, padding, y);
+
+                // Title
+                ctx.font = '600 16px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.fillStyle = textPrimary;
+                ctx.fillText(item.title, padding + 100, y);
+                y += 22;
+
+                // Description
+                if (item.desc) {
+                    ctx.font = '13px -apple-system, BlinkMacSystemFont, sans-serif';
+                    ctx.fillStyle = textSecondary;
+                    // Truncate if too long
+                    let desc = item.desc;
+                    if (desc.length > 70) desc = desc.substring(0, 67) + '...';
+                    ctx.fillText(desc, padding + 100, y);
+                    y += 20;
+                }
+
+                // Responsible
+                if (item.responsible) {
+                    ctx.font = '500 12px -apple-system, BlinkMacSystemFont, sans-serif';
+                    ctx.fillStyle = accentColor;
+                    ctx.fillText('👤 ' + item.responsible, padding + 100, y);
+                    y += 20;
+                }
+
+                // Item separator
+                y += 10;
+                ctx.strokeStyle = borderColor;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(width - padding, y);
+                ctx.stroke();
+                y += 15;
+            });
+
+            // Footer
+            y += 10;
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, y);
+            ctx.lineTo(width - padding, y);
+            ctx.stroke();
+            y += 30;
+
+            ctx.font = '13px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.fillStyle = textSecondary;
+            ctx.textAlign = 'center';
+            ctx.fillText('✨ The Greatness & Goodness of God ✨', width / 2, y);
+
+            return canvas;
+        }
+
+        // Get Image button - shows modal with image
+        document.getElementById('copyImageBtn').addEventListener('click', function() {
+            const btn = this;
+            const originalContent = btn.innerHTML;
+
+            btn.classList.add('copying');
+            btn.innerHTML = '⏳ Generating...';
+
+            try {
+                const canvas = generateAgendaCanvas();
+                currentImageDataUrl = canvas.toDataURL('image/png');
+
+                canvas.toBlob(function(blob) {
+                    currentImageBlob = blob;
+                }, 'image/png');
+
+                // Show modal
+                const modal = document.getElementById('imageModal');
+                const previewImg = document.getElementById('previewImage');
+                const downloadLink = document.getElementById('downloadImageLink');
+
+                previewImg.src = currentImageDataUrl;
+                downloadLink.href = currentImageDataUrl;
+                modal.classList.add('active');
+
+                btn.classList.remove('copying');
+                btn.innerHTML = originalContent;
+            } catch (error) {
+                console.error('Error:', error);
+                btn.classList.remove('copying');
+                btn.innerHTML = '❌ Error';
+                setTimeout(() => { btn.innerHTML = originalContent; }, 2000);
+            }
+        });
+
+        // Copy to Clipboard button (in schedule section)
+        document.getElementById('copyToClipboardBtn').addEventListener('click', async function() {
+            const btn = this;
+            const originalContent = btn.innerHTML;
+
+            btn.innerHTML = '⏳ Copying...';
+
+            try {
+                const canvas = generateAgendaCanvas();
+
+                // Convert to blob
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
+                if (!blob) throw new Error('Failed to create blob');
+
+                // Try clipboard API
+                try {
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ 'image/png': blob })
+                    ]);
+                    btn.innerHTML = '✅ Copied!';
+                    setTimeout(() => { btn.innerHTML = originalContent; }, 2000);
+                } catch (clipErr) {
+                    // Clipboard failed - show image in modal instead
+                    console.log('Clipboard not supported, showing modal');
+                    currentImageDataUrl = canvas.toDataURL('image/png');
+                    currentImageBlob = blob;
+
+                    const modal = document.getElementById('imageModal');
+                    document.getElementById('previewImage').src = currentImageDataUrl;
+                    document.getElementById('downloadImageLink').href = currentImageDataUrl;
+                    modal.classList.add('active');
+
+                    btn.innerHTML = originalContent;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                btn.innerHTML = '❌ Error';
+                setTimeout(() => { btn.innerHTML = originalContent; }, 2000);
+            }
+        });
+
+        // Close modal
+        document.getElementById('closeImageModal').addEventListener('click', function() {
+            document.getElementById('imageModal').classList.remove('active');
+        });
+
+        // Close modal on background click
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        // Copy button inside modal
+        document.getElementById('copyImageToClipboard').addEventListener('click', async function() {
+            const btn = this;
+            const originalText = btn.innerHTML;
+
+            try {
+                if (currentImageBlob) {
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ 'image/png': currentImageBlob })
+                    ]);
+                    btn.innerHTML = '✅ Copied!';
+                    btn.style.background = '#10b981';
+                } else {
+                    throw new Error('No image');
+                }
+            } catch (err) {
+                // Safari fallback - tell user to long-press
+                btn.innerHTML = '📱 Long-press image to copy';
+                btn.style.background = '#f59e0b';
+            }
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '';
+            }, 2500);
+        });
     </script>
-
-
-</body></html>
+    <style>
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin { animation: spin 1s linear infinite; }
+    </style>
+</body>
+</html>
